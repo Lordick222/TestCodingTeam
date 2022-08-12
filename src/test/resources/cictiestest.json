@@ -1,0 +1,26 @@
+[
+  {
+    "name": "London",
+    "lat": 39.88645,
+    "long": -83.44825,
+    "id": 1
+  },
+  {
+    "name": "New London",
+    "lat": 44.39276,
+    "long": -88.73983,
+    "id": 2
+  },
+  {
+    "name": "Londontowne",
+    "lat": 38.93345,
+    "long": -76.54941,
+    "id": 3
+  },
+  {
+    "name": "Londonderry",
+    "lat": 42.86509,
+    "long": -71.37395,
+    "id": 4
+  }
+]
