@@ -24,6 +24,8 @@ class CityRepository(private val tsvReader: TsvReader) {
     }
 
     fun getAllByNameContains(name: String): List<CityDao> {
-        return cityes.filter { it.key.contains(name) }.values.toList()
+        var result =  cityes.filter { it.key.contains(name) }.values.toList()
+        logger.debug { "Founded ${result.size} sities by name : $name" }
+        return result
     }
 }

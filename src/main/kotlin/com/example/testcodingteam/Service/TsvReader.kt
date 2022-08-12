@@ -20,10 +20,10 @@ class TsvReader {
         val bufferedReader: BufferedReader =
             File(fileName).bufferedReader()
         val csvParser = CSVParser(bufferedReader, CSVFormat.newFormat('\t').withFirstRecordAsHeader())
-        val cityes = mutableListOf<CityDao>()
+        val cities = mutableListOf<CityDao>()
         csvParser.forEach {
             try {
-                cityes.add(
+                cities.add(
                     CityDao(
                         it.get(TsvCityHeader.ID.value).toLong(),
                         it.get(TsvCityHeader.NAME.value),
@@ -35,6 +35,7 @@ class TsvReader {
                 logger.error(e) { "Can not get record with id: $it.get(TsvCityHeader.ID.value)" }
             }
         }
-        return cityes
+        logger.debug { "Founded ${cities.size} sities in file : $fileName " }
+        return cities
     }
 }
