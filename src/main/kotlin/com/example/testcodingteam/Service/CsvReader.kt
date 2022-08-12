@@ -1,24 +1,34 @@
 package com.example.testcodingteam.Service
 
-import com.example.testcodingteam.Repository.CityDto
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.databind.MappingIterator
-import com.fasterxml.jackson.dataformat.csv.CsvMapper
-import com.fasterxml.jackson.dataformat.csv.CsvSchema
+import com.example.testcodingteam.Repository.CityDao
+import com.example.testcodingteam.Repository.TsvCityHeader
+import org.apache.commons.csv.CSVFormat
+import org.apache.commons.csv.CSVParser
 import org.springframework.stereotype.Service
+import java.io.BufferedReader
+import java.io.File
 
 
 @Service
 class CsvReader {
 
-    val objectMapper = CsvMapper()
-
-    fun readCsvFile(fileName: String): List<CityDto> {
-        val schema: CsvSchema = objectMapper.schemaFor(CityDto::class.java).withColumnSeparator('\t').withHeader()
-        val it: MappingIterator<CityDto> = objectMapper
-            .readerFor(CityDto::class.java)
-            .with(schema)
-            .readValues(this.javaClass.classLoader.getResource("cities_canada-usa.tsv"))
-        return it.readAll()
+    fun readCsvFile(fileName: String): List<CityDao> {
+        val bufferedReader: BufferedReader =
+            File(this.javaClass.classLoader.getResource(fileName).toURI()).bufferedReader()
+        val csvParser = CSVParser(bufferedReader, CSVFormat.newFormat('\t').withFirstRecordAsHeader())
+        val cityes = mutableListOf<CityDao>()
+        for (csvRecord in csvParser) {
+            cityes.add(
+                CityDao(
+                    csvRecord.get(TsvCityHeader.ID.value).toLong(),
+                    csvRecord.get(TsvCityHeader.NAME.value),
+                    csvRecord.get(TsvCityHeader.LAT.value).toDouble(),
+                    csvRecord.get(TsvCityHeader.LONG.value).toDouble()
+                )
+            )
+        }
+        return cityes
     }
+
+
 }

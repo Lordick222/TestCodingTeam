@@ -11,12 +11,11 @@ class CityRepository(private val csvReader: CsvReader) {
 
     private companion object : KLogging()
 
-    private val cityes = mutableListOf<CityDto>()
-
+    private val cityes = mutableListOf<CityDao>()
 
     @PostConstruct
     fun enrichDataFromCsv() {
-        cityes.addAll(csvReader.readCsvFile(this.javaClass.classLoader.getResource("cities_canada-usa.tsv").path))
+        cityes.addAll(csvReader.readCsvFile("cities_canada-usa.tsv"))
         logger.info { cityes }
     }
 
